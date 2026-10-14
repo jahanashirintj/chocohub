@@ -1,0 +1,918 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Chocolates | Choco Hub</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Allura&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --dark: #190904;
+  --brown: #2b150c;
+  --gold: #e9b957;
+  --cream: #f8efe2;
+  --muted: #d9c5b0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--dark);
+  color: var(--cream);
+  font-family: "DM Sans", Arial, sans-serif;
+}
+a { text-decoration: none; color: inherit; }
+button, input { font: inherit; }
+.container { width: min(1150px, 92%); margin: auto; }
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(20,8,3,.97);
+  border-bottom: 1px solid #49301b;
+}
+.nav {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.logo { display: flex; align-items: center; gap: 9px; }
+.logo-icon { color: var(--gold); font-size: 32px; }
+.logo-name {
+  display: block;
+  color: var(--gold);
+  font: 35px "Allura", cursive;
+  line-height: 1;
+}
+.logo-sub {
+  display: block;
+  text-align: center;
+  color: var(--gold);
+  font-size: 7px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+nav { display: flex; gap: 24px; align-items: center; }
+nav a { font-size: 11px; padding: 25px 0; }
+nav a:hover, nav a.active { color: var(--gold); }
+nav a.active { border-bottom: 1px solid var(--gold); }
+.nav-actions { display: flex; align-items: center; gap: 13px; }
+.nav-actions button {
+  background: transparent;
+  color: white;
+  border: 0;
+  cursor: pointer;
+  font-size: 18px;
+}
+.cart-count {
+  color: #241105;
+  background: var(--gold);
+  border-radius: 50%;
+  padding: 2px 5px;
+  font-size: 10px;
+}
+#menuButton { display: none; }
+
+/* PAGE BANNER */
+.page-banner {
+  padding: 65px 15px 55px;
+  text-align: center;
+  background:
+    linear-gradient(rgba(20,7,2,.77), rgba(20,7,2,.88)),
+    url("https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1800&q=85") center/cover;
+  border-bottom: 1px solid #775021;
+}
+.eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+h1, h2, h3 {
+  font-family: "Playfair Display", Georgia, serif;
+}
+.page-banner h1 {
+  font-size: clamp(35px, 5vw, 52px);
+  margin: 12px 0;
+}
+.page-banner h1 em {
+  color: var(--gold);
+  font-family: "Allura", cursive;
+  font-size: 1.25em;
+  font-weight: 400;
+}
+.page-banner p {
+  max-width: 500px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* SHOP TOOLBAR */
+.shop-section { padding: 40px 0 65px; }
+.shop-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+.shop-heading h2 { margin: 0; font-size: 28px; }
+.shop-heading p { color: var(--muted); font-size: 11px; }
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-btn {
+  padding: 9px 15px;
+  border: 1px solid #72502c;
+  border-radius: 25px;
+  background: transparent;
+  color: var(--cream);
+  font-size: 10px;
+  cursor: pointer;
+}
+.filter-btn:hover, .filter-btn.active {
+  color: #241105;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.search-box {
+  margin-left: auto;
+  display: flex;
+  min-width: 200px;
+  border: 1px solid #72502c;
+  border-radius: 25px;
+  overflow: hidden;
+}
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 13px;
+  color: white;
+  background: #29140a;
+  border: 0;
+  outline: none;
+  font-size: 11px;
+}
+.search-box button {
+  padding: 0 13px;
+  border: 0;
+  background: #29140a;
+  color: var(--gold);
+  cursor: pointer;
+}
+
+/* PRODUCT CARDS */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 22px;
+}
+.product-card {
+  overflow: hidden;
+  border: 1px solid #75502b;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #32190d, #1c0b05);
+  transition: transform .25s, border-color .25s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+}
+.product-image {
+  position: relative;
+  height: 205px;
+  overflow: hidden;
+  background: #4a2917;
+}
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s;
+}
+.product-card:hover .product-image img { transform: scale(1.06); }
+.tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 9px;
+  border-radius: 3px;
+  background: var(--gold);
+  color: #241105;
+  font-size: 9px;
+  font-weight: 700;
+}
+.heart-btn {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 31px;
+  height: 31px;
+  border: 1px solid #d7b26d;
+  border-radius: 50%;
+  background: rgba(25,9,4,.8);
+  color: white;
+  cursor: pointer;
+  font-size: 17px;
+}
+.heart-btn.liked { color: #ff9a9a; }
+.product-info { padding: 15px; }
+.product-category {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 8px;
+}
+.product-info h3 { font-size: 17px; margin: 7px 0; }
+.product-description {
+  min-height: 34px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+.rating { color: var(--gold); font-size: 10px; margin: 9px 0; }
+.rating span { color: var(--muted); }
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+.price { color: var(--gold); font-size: 18px; font-weight: 700; }
+.price small { font-size: 9px; color: var(--muted); font-weight: 400; }
+.add-btn {
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #241105;
+  border-radius: 20px;
+  padding: 9px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.add-btn:hover { background: #f5d58e; }
+.no-results {
+  display: none;
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 10px;
+}
+
+/* FEATURE STRIP */
+.promise {
+  padding: 25px 0;
+  background: #f5eee3;
+  color: #261207;
+}
+.promise-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 15px;
+}
+.promise-item { text-align: center; }
+.promise-item span { display: block; color: #bb7c2c; font-size: 26px; }
+.promise-item h3 { font-size: 13px; margin: 8px 0 5px; }
+.promise-item p { color: #72533b; font-size: 10px; margin: 0; }
+
+/* CART PANEL */
+.cart-panel {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: -420px;
+  width: min(390px, 100%);
+  height: 100vh;
+  overflow-y: auto;
+  padding: 22px;
+  background: #211008;
+  border-left: 1px solid var(--gold);
+  box-shadow: -10px 0 30px #0008;
+  transition: right .3s;
+}
+.cart-panel.open { right: 0; }
+.cart-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #65421f;
+  padding-bottom: 14px;
+}
+.cart-top h2 { margin: 0; }
+.close-cart {
+  color: white;
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  cursor: pointer;
+}
+.cart-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #49301b;
+  font-size: 12px;
+}
+.cart-item-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.quantity-controls { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
+.quantity-controls button {
+  width: 27px;
+  height: 27px;
+  border: 1px solid #8b632f;
+  color: var(--gold);
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-size: 15px;
+}
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--gold);
+  color: #241105;
+  border: 0;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.empty-cart { color: var(--muted); font-size: 12px; padding: 20px 0; }
+.toast {
+  position: fixed;
+  z-index: 30;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: #241105;
+  padding: 12px 18px;
+  border-radius: 25px;
+  font-size: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+.toast.show { opacity: 1; }
+
+/* FOOTER */
+footer { background: #120601; border-top: 1px solid #49301b; }
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0;
+}
+.footer-logo { color: var(--gold); font: 32px "Allura", cursive; }
+.footer-content p { color: var(--muted); font-size: 10px; }
+.footer-links { display: flex; gap: 17px; flex-wrap: wrap; font-size: 10px; }
+.footer-links a:hover { color: var(--gold); }
+.copyright {
+  border-top: 1px solid #49301b;
+  text-align: center;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 950px) {
+  .product-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  nav { gap: 13px; }
+}
+@media(max-width: 700px) {
+  .nav { min-height: 63px; }
+  .logo-name { font-size: 29px; }
+  #menuButton { display: inline-block; }
+  nav {
+    display: none;
+    position: absolute;
+    top: 63px;
+    left: 0;
+    right: 0;
+    padding: 12px 5%;
+    background: #190904;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  nav.open { display: flex; }
+  nav a { padding: 13px 0; border-bottom: 1px solid #382012; }
+  .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .product-image { height: 165px; }
+  .shop-heading { align-items: flex-start; flex-direction: column; }
+  .search-box { margin-left: 0; width: 100%; }
+  .promise-grid { grid-template-columns: repeat(2,1fr); row-gap: 25px; }
+  .footer-content { flex-direction: column; text-align: center; }
+}
+@media(max-width: 390px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .product-image { height: 230px; }
+  .product-info h3 { font-size: 19px; }
+  .filters { gap: 5px; }
+  .filter-btn { padding: 8px 10px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">
+      <span class="logo-icon">❧</span>
+      <span>
+        <span class="logo-name">Choco Hub</span>
+        <span class="logo-sub">Homemade Chocolates</span>
+      </span>
+    </a>
+
+    <nav id="navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a class="active" href="products.html">Our Chocolates</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#testimonials">Testimonials</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button id="searchFocus" aria-label="Search products">⌕</button>
+      <button id="openCart" aria-label="Open cart">🛒 <span class="cart-count" id="cartCount">0</span></button>
+      <button id="menuButton" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- PAGE BANNER -->
+  <section class="page-banner">
+    <div class="eyebrow">Handcrafted with Love</div>
+    <h1>Our <em>Chocolates</em></h1>
+    <p>
+      Discover our collection of homemade chocolates,
+      crafted in small batches with care, rich flavors
+      and the finest ingredients.
+    </p>
+  </section>
+
+  <!-- SHOP -->
+  <section class="shop-section">
+    <div class="container">
+      <div class="shop-heading">
+        <div>
+          <div class="eyebrow">Made for Chocolate Lovers</div>
+          <h2>Shop Our Collection</h2>
+          <p id="resultCount">Showing all chocolates</p>
+        </div>
+        <p>Small batches. Big happiness. ✨</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All Chocolates</button>
+          <button class="filter-btn" data-filter="truffles">Truffles</button>
+          <button class="filter-btn" data-filter="nuts">Nutty Chocolates</button>
+          <button class="filter-btn" data-filter="hearts">Heart Chocolates</button>
+          <button class="filter-btn" data-filter="gifts">Gift Boxes</button>
+        </div>
+
+        <div class="search-box">
+          <input id="productSearch" type="search" placeholder="Search chocolates...">
+          <button id="searchButton" aria-label="Search">⌕</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+
+        <article class="product-card" data-category="truffles" data-name="Classic Chocolate Truffles">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1548907040-4d42a0b8a9b4?auto=format&fit=crop&w=800&q=85" alt="Classic chocolate truffles" loading="lazy">
+            <span class="tag">Bestseller</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Signature Collection</div>
+            <h3>Classic Truffles</h3>
+            <p class="product-description">Rich, smooth chocolate truffles with a luxurious melt-in-your-mouth finish.</p>
+            <div class="rating">★★★★★ <span>(Popular choice)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹249 <small>/ box</small></div>
+              <button class="add-btn" data-name="Classic Truffles" data-price="249">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="nuts" data-name="Nutty Delights">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=85" alt="Chocolate with nuts" loading="lazy">
+            <span class="tag">Customer Favourite</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Nut Collection</div>
+            <h3>Nutty Delights</h3>
+            <p class="product-description">A delicious combination of creamy chocolate, crunchy nuts and rich flavor.</p>
+            <div class="rating">★★★★★ <span>(Popular choice)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹299 <small>/ box</small></div>
+              <button class="add-btn" data-name="Nutty Delights" data-price="299">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="hearts" data-name="Heart Chocolates">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=800&q=85" alt="Heart-shaped chocolate selection" loading="lazy">
+            <span class="tag">Special Gift</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Love Collection</div>
+            <h3>Heart Chocolates</h3>
+            <p class="product-description">Beautiful chocolates for birthdays, celebrations and thoughtful surprises.</p>
+            <div class="rating">★★★★★ <span>(Gift favourite)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹349 <small>/ box</small></div>
+              <button class="add-btn" data-name="Heart Chocolates" data-price="349">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="gifts" data-name="Luxury Assorted Box">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=800&q=85" alt="Luxury assorted chocolates" loading="lazy">
+            <span class="tag">Premium</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Gift Collection</div>
+            <h3>Luxury Assorted Box</h3>
+            <p class="product-description">An elegant assortment of chocolate favorites, perfect for gifting.</p>
+            <div class="rating">★★★★★ <span>(Gift favourite)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹499 <small>/ box</small></div>
+              <button class="add-btn" data-name="Luxury Assorted Box" data-price="499">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="truffles" data-name="Dark Chocolate Truffles">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1575377427642-087cf684f29d?auto=format&fit=crop&w=800&q=85" alt="Dark chocolate truffles" loading="lazy">
+            <span class="tag">Rich &amp; Smooth</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Dark Collection</div>
+            <h3>Dark Chocolate Bites</h3>
+            <p class="product-description">Deep cocoa notes and a smooth finish for lovers of rich chocolate.</p>
+            <div class="rating">★★★★★ <span>(Chocolate lovers)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹279 <small>/ box</small></div>
+              <button class="add-btn" data-name="Dark Chocolate Bites" data-price="279">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="nuts" data-name="Almond Chocolate Crunch">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=85" alt="Almond chocolate treats" loading="lazy">
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Nut Collection</div>
+            <h3>Almond Crunch</h3>
+            <p class="product-description">Crunchy almonds covered in chocolate for a delightful sweet treat.</p>
+            <div class="rating">★★★★★ <span>(Nut collection)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹319 <small>/ box</small></div>
+              <button class="add-btn" data-name="Almond Crunch" data-price="319">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category="gifts" data-name="Celebration Gift Box">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=85" alt="Celebration gift box" loading="lazy">
+            <span class="tag">Gift Pick</span>
+            <button class="heart-btn" aria-label="Add to favourites">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-category">Gift Collection</div>
+            <h3>Celebration Gift Box</h3>
+            <p class="product-description">A thoughtful chocolate gift for festivals, birthdays and special days.</p>
+            <div class="rating">★★★★★ <span>(Gift collection)</span></div>
+            <div class="product-bottom">
+              <div class="price">₹599 <small>/ box</small></div>
+              <button class="add-btn" data-name="Celebration Gift Box" data-price="599">Add +</button>
+            </div>
+          </div>
+        </article>
+
+        <div class="no-results" id="noResults">
+          <h3>No chocolates found</h3>
+          <p>Try another search or select a different category.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND PROMISE -->
+  <section class="promise">
+    <div class="container promise-grid">
+      <div class="promise-item"><span>♧</span><h3>Quality Ingredients</h3><p>Carefully selected ingredients</p></div>
+      <div class="promise-item"><span>♡</span><h3>Made with Love</h3><p>Handcrafted in small batches</p></div>
+      <div class="promise-item"><span>♨</span><h3>Freshly Prepared</h3><p>Made with attention to detail</p></div>
+      <div class="promise-item"><span>◇</span><h3>Beautiful Gifts</h3><p>Sweet moments for everyone</p></div>
+    </div>
+  </section>
+</main>
+
+<!-- SHOPPING CART DRAWER -->
+<aside class="cart-panel" id="cartPanel" aria-label="Shopping cart">
+  <div class="cart-top">
+    <h2>Your Bag</h2>
+    <button class="close-cart" id="closeCart" aria-label="Close cart">×</button>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-total">
+    <strong>Subtotal</strong>
+    <strong id="cartTotal">₹0</strong>
+  </div>
+  <button class="checkout-btn" id="checkoutButton">Continue to Order</button>
+  <p style="font-size:10px;color:#d9c5b0;line-height:1.6">
+    Demo cart only. Connect an order service to accept real purchases.
+  </p>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<footer>
+  <div class="container footer-content">
+    <a href="index.html" class="footer-logo">❧ Choco Hub</a>
+    <p>Handmade with love. Sweetness in every bite.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About Us</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+  <div class="copyright">
+    © <span id="year"></span> Choco Hub. All rights reserved.
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById("menuButton");
+const navigation = document.getElementById("navigation");
+const cartPanel = document.getElementById("cartPanel");
+const cartItemsElement = document.getElementById("cartItems");
+const cartCountElement = document.getElementById("cartCount");
+const cartTotalElement = document.getElementById("cartTotal");
+const toast = document.getElementById("toast");
+
+let selectedCategory = "all";
+let cart = {};
+let toastTimer;
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function showMessage(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2300);
+}
+
+/* MOBILE MENU */
+menuButton.addEventListener("click", () => {
+  navigation.classList.toggle("open");
+  menuButton.textContent = navigation.classList.contains("open") ? "✕" : "☰";
+});
+
+navigation.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navigation.classList.remove("open");
+    menuButton.textContent = "☰";
+  });
+});
+
+/* CATEGORY FILTER AND SEARCH */
+const products = [...document.querySelectorAll(".product-card")];
+const searchInput = document.getElementById("productSearch");
+
+function filterProducts() {
+  const query = searchInput.value.trim().toLowerCase();
+  let visibleCount = 0;
+
+  products.forEach(product => {
+    const categoryMatch =
+      selectedCategory === "all" ||
+      product.dataset.category === selectedCategory;
+
+    const searchMatch =
+      product.dataset.name.toLowerCase().includes(query) ||
+      product.textContent.toLowerCase().includes(query);
+
+    const visible = categoryMatch && searchMatch;
+    product.style.display = visible ? "" : "none";
+
+    if (visible) visibleCount++;
+  });
+
+  document.getElementById("noResults").style.display =
+    visibleCount === 0 ? "block" : "none";
+
+  document.getElementById("resultCount").textContent =
+    "Showing " + visibleCount + " chocolate product(s)";
+}
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(item =>
+      item.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    selectedCategory = button.dataset.filter;
+    filterProducts();
+  });
+});
+
+searchInput.addEventListener("input", filterProducts);
+
+document.getElementById("searchButton").addEventListener("click", () => {
+  searchInput.focus();
+});
+
+document.getElementById("searchFocus").addEventListener("click", () => {
+  document.getElementById("productSearch").focus();
+  document.querySelector(".toolbar").scrollIntoView({ behavior: "smooth" });
+});
+
+/* FAVOURITES */
+document.querySelectorAll(".heart-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    button.classList.toggle("liked");
+    button.textContent = button.classList.contains("liked") ? "♥" : "♡";
+    showMessage(
+      button.classList.contains("liked")
+        ? "Added to your favourites!"
+        : "Removed from your favourites."
+    );
+  });
+});
+
+/* SHOPPING CART */
+document.querySelectorAll(".add-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const name = button.dataset.name;
+    const price = Number(button.dataset.price);
+
+    if (!cart[name]) cart[name] = { price: price, quantity: 0 };
+    cart[name].quantity++;
+
+    renderCart();
+    showMessage(name + " added to your bag!");
+  });
+});
+
+function renderCart() {
+  cartItemsElement.innerHTML = "";
+  let totalItems = 0;
+  let totalPrice = 0;
+
+  Object.entries(cart).forEach(([name, item]) => {
+    if (item.quantity <= 0) {
+      delete cart[name];
+      return;
+    }
+
+    totalItems += item.quantity;
+    totalPrice += item.price * item.quantity;
+
+    const row = document.createElement("div");
+    row.className = "cart-item";
+
+    const top = document.createElement("div");
+    top.className = "cart-item-row";
+
+    const title = document.createElement("strong");
+    title.textContent = name;
+
+    const price = document.createElement("span");
+    price.textContent = "₹" + (item.price * item.quantity);
+
+    top.append(title, price);
+
+    const controls = document.createElement("div");
+    controls.className = "quantity-controls";
+
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.setAttribute("aria-label", "Decrease " + name);
+    minus.addEventListener("click", () => {
+      cart[name].quantity--;
+      renderCart();
+    });
+
+    const quantity = document.createElement("span");
+    quantity.textContent = item.quantity;
+
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+    plus.setAttribute("aria-label", "Increase " + name);
+    plus.addEventListener("click", () => {
+      cart[name].quantity++;
+      renderCart();
+    });
+
+    const remove = document.createElement("button");
+    remove.textContent = "Remove";
+    remove.style.cssText =
+      "width:auto;border:0;border-radius:0;color:#e9b957;margin-left:auto";
+    remove.addEventListener("click", () => {
+      delete cart[name];
+      renderCart();
+    });
+
+    controls.append(minus, quantity, plus, remove);
+    row.append(top, controls);
+    cartItemsElement.appendChild(row);
+  });
+
+  cartCountElement.textContent = totalItems;
+  cartTotalElement.textContent = "₹" + totalPrice;
+
+  if (totalItems === 0) {
+    cartItemsElement.innerHTML =
+      '<p class="empty-cart">Your bag is empty. Explore our chocolate collection!</p>';
+  }
+}
+
+document.getElementById("openCart").addEventListener("click", () => {
+  cartPanel.classList.add("open");
+});
+
+document.getElementById("closeCart").addEventListener("click", () => {
+  cartPanel.classList.remove("open");
+});
+
+document.getElementById("checkoutButton").addEventListener("click", () => {
+  if (Object.keys(cart).length === 0) {
+    showMessage("Your shopping bag is empty.");
+    return;
+  }
+
+  let orderSummary = "Choco Hub Order Enquiry\n\n";
+
+  Object.entries(cart).forEach(([name, item]) => {
+    orderSummary += name + " × " + item.quantity +
+      " = ₹" + (item.price * item.quantity) + "\n";
+  });
+
+  orderSummary += "\nSubtotal: " + cartTotalElement.textContent;
+  orderSummary += "\n\nPlease connect a checkout or WhatsApp service to place real orders.";
+
+  alert(orderSummary);
+});
+
+/* FALLBACK WHEN A PRODUCT IMAGE DOES NOT LOAD */
+document.querySelectorAll(".product-image img").forEach(image => {
+  image.addEventListener("error", () => {
+    image.style.display = "none";
+    image.parentElement.style.background =
+      "linear-gradient(135deg,#6b3b20,#251007)";
+  });
+});
+
+filterProducts();
+renderCart();
+</script>
+
+</body>
+</html>
